@@ -25,4 +25,8 @@ public class Curso {
     @JsonManagedReference
     private List<Evaluacion> evaluaciones;
 
+    @OneToMany(mappedBy = "curso")
+    @JsonManagedReference
+    private List<Pago> pagos;
+
 }

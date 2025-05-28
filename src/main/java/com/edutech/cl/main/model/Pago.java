@@ -31,5 +31,9 @@ public class Pago {
     @Column(nullable = false)
     private String estado; // Ej: "pagado", "pendiente"
 
+    @ManyToOne
+    @JoinColumn(name = "curso_id")
+    @JsonBackReference
+    private Curso curso;
 
 }

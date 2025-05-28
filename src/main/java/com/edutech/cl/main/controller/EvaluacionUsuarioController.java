@@ -1,4 +1,4 @@
-/* package com.edutech.cl.main.controller;
+package com.edutech.cl.main.controller;
 
 import com.edutech.cl.main.model.EvaluacionUsuario;
 import com.edutech.cl.main.service.EvaluacionUsuarioService;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/evaluaciones-usuario")
+@RequestMapping("/api/v1/evaluaciones-usuario")
 public class EvaluacionUsuarioController {
 
     private final EvaluacionUsuarioService service;
@@ -36,4 +36,3 @@ public class EvaluacionUsuarioController {
         service.eliminar(id);
     }
 }
- */

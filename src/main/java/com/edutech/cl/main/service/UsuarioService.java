@@ -18,20 +18,33 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     public List<UsuarioDTO> listar() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
-        return usuarios.stream()
+        return usuarioRepository.findAll()
+                .stream()
                 .map(UsuarioDTO::new)
                 .collect(Collectors.toList());
     }
 
-    public String crear(UsuarioRequestDTO usuarioRequestDTO) {
+    public UsuarioDTO crear(UsuarioRequestDTO usuarioRequestDTO) {
         Usuario usuario = new Usuario();
         usuario.setUsername(usuarioRequestDTO.getUsername());
         usuario.setPassword(usuarioRequestDTO.getPassword());
         usuario.setRol(usuarioRequestDTO.getRol());
 
-        usuarioRepository.save(usuario);
-        return "Usuario registrado correctamente";
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+        return new UsuarioDTO(usuarioGuardado);
+    }
+
+    public UsuarioDTO modificar(Long id, UsuarioRequestDTO usuarioRequestDTO) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            usuario.setUsername(usuarioRequestDTO.getUsername());
+            usuario.setPassword(usuarioRequestDTO.getPassword());
+            usuario.setRol(usuarioRequestDTO.getRol());
+            Usuario actualizado = usuarioRepository.save(usuario);
+            return new UsuarioDTO(actualizado);
+        }
+        throw new RuntimeException("Usuario no encontrado");
     }
 
     public String actualizarRol(Long id, String nuevoRol) {

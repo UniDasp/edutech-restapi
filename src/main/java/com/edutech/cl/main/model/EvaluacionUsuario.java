@@ -1,4 +1,4 @@
-/*
+
 package com.edutech.cl.main.model;
 
 import jakarta.persistence.*;
@@ -23,4 +23,3 @@ public class EvaluacionUsuario {
 
     private LocalDate fechaEntrega;
 }
-*/
