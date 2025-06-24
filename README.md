@@ -124,39 +124,6 @@ Los controllers manejan las peticiones HTTP, los services tienen la lógica, los
 - `GET http://localhost:8080/api/v1/cursos` - Ver cursos
 - `GET http://localhost:8080/api/v1/evaluaciones` - Ver evaluaciones
 
-## Solución de problemas
-
-### Error de clave foránea en EvaluacionUsuario
-Si obtienes un error de clave foránea al crear una EvaluacionUsuario:
-
-1. **Ejecuta el script SQL** `database-setup.sql` en tu base de datos MySQL
-2. **O cambia la configuración** en `application.properties`:
-   ```
-   spring.jpa.hibernate.ddl-auto=create-drop
-   ```
-3. **Reinicia la aplicación** para que se recree la base de datos
-4. **Vuelve a crear** usuarios, cursos y evaluaciones
-5. **Luego prueba** el endpoint de EvaluacionUsuario
-
-### Verificar que los IDs existen
-Antes de crear una EvaluacionUsuario, verifica que:
-- El usuario con ese ID existe
-- La evaluación con ese ID existe
-- Usa los endpoints GET para verificar
-
-### Problemas de serialización JSON
-Si tienes problemas con los POST de Cursos o Evaluaciones:
-- Los modelos ya están simplificados sin anotaciones JsonManagedReference
-- Los controladores usan DTOs específicos para evitar problemas de serialización
-- Asegúrate de usar el formato JSON correcto como se muestra en los ejemplos
-
-### Referencias circulares infinitas
-Si ves un JSON que se repite infinitamente:
-- Los modelos tienen anotaciones `@JsonBackReference` y `@JsonManagedReference` para evitar bucles
-- `@JsonBackReference` se usa en el lado "muchos" de las relaciones
-- `@JsonManagedReference` se usa en el lado "uno" de las relaciones
-- Esto evita que el JSON se vuelva infinito cuando hay relaciones bidireccionales
-
 ## Tecnologías
 
 - Spring Boot 3.2.5
