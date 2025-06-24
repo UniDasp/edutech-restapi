@@ -9,5 +9,4 @@ public class EvaluacionRequestDTO {
     private String titulo;
     private LocalDate fecha;
     private int puntajeMaximo;
-    private Long cursoId;
 }

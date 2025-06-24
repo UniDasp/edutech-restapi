@@ -9,5 +9,6 @@ public class PagoRequestDTO {
     private LocalDate fecha;
     private String metodo;
     private String estado;
+    private Long usuarioId;
     private Long cursoId;
 }

@@ -1,5 +1,6 @@
 package com.edutech.cl.main.service;
 
+import com.edutech.cl.main.dto.request.EvaluacionUsuarioRequestDTO;
 import com.edutech.cl.main.model.EvaluacionUsuario;
 import com.edutech.cl.main.model.Usuario;
 import com.edutech.cl.main.model.Evaluacion;
@@ -27,11 +28,30 @@ public class EvaluacionUsuarioService {
         return repository.findAll();
     }
 
+    public EvaluacionUsuario obtenerPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("EvaluacionUsuario no encontrada con id: " + id));
+    }
+
+    public EvaluacionUsuario crear(EvaluacionUsuarioRequestDTO requestDTO) {
+        Usuario usuario = usuarioRepository.findById(requestDTO.getUsuarioId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + requestDTO.getUsuarioId()));
+
+        Evaluacion evaluacion = evaluacionRepository.findById(requestDTO.getEvaluacionId())
+                .orElseThrow(() -> new RuntimeException("Evaluacion no encontrada con id: " + requestDTO.getEvaluacionId()));
+
+        EvaluacionUsuario evaluacionUsuario = new EvaluacionUsuario();
+        evaluacionUsuario.setUsuario(usuario);
+        evaluacionUsuario.setEvaluacion(evaluacion);
+        evaluacionUsuario.setPuntajeObtenido(requestDTO.getPuntajeObtenido());
+        evaluacionUsuario.setFechaEntrega(requestDTO.getFechaEntrega());
+
+        return repository.save(evaluacionUsuario);
+    }
+
     public EvaluacionUsuario crear(EvaluacionUsuario evaluacionUsuario) {
-        // Cargar Usuario completo desde DB
         Usuario usuario = usuarioRepository.findById(evaluacionUsuario.getUsuario().getId()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Cargar Evaluacion completa desde DB
         Evaluacion evaluacion = evaluacionRepository.findById(evaluacionUsuario.getEvaluacion().getId()).orElseThrow(() -> new RuntimeException("Evaluacion no encontrada"));
 
         evaluacionUsuario.setUsuario(usuario);

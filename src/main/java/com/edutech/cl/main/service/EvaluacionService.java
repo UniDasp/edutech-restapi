@@ -1,5 +1,6 @@
 package com.edutech.cl.main.service;
 
+import com.edutech.cl.main.dto.request.EvaluacionRequestDTO;
 import com.edutech.cl.main.model.Evaluacion;
 import com.edutech.cl.main.model.Curso;
 import com.edutech.cl.main.repository.EvaluacionRepository;
@@ -22,6 +23,24 @@ public class EvaluacionService {
 
     public List<Evaluacion> listar() {
         return evaluacionRepository.findAll();
+    }
+
+    public Evaluacion obtenerPorId(Long id) {
+        return evaluacionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Evaluacion no encontrada con id: " + id));
+    }
+
+    public Evaluacion crear(EvaluacionRequestDTO requestDTO, Long cursoId) {
+        Curso curso = cursoRepository.findById(cursoId)
+                .orElseThrow(() -> new RuntimeException("Curso no encontrado con id: " + cursoId));
+
+        Evaluacion evaluacion = new Evaluacion();
+        evaluacion.setTitulo(requestDTO.getTitulo());
+        evaluacion.setFecha(requestDTO.getFecha());
+        evaluacion.setPuntajeMaximo(requestDTO.getPuntajeMaximo());
+        evaluacion.setCurso(curso);
+
+        return evaluacionRepository.save(evaluacion);
     }
 
     public Evaluacion crear(Evaluacion evaluacion, Long cursoId) {

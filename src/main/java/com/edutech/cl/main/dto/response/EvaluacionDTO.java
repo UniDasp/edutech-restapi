@@ -1,9 +1,11 @@
 package com.edutech.cl.main.dto.response;
 
 import com.edutech.cl.main.model.Evaluacion;
+import lombok.Data;
 
 import java.time.LocalDate;
 
+@Data
 public class EvaluacionDTO {
 
     private Long id;

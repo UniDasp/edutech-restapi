@@ -24,6 +24,12 @@ public class UsuarioService {
                 .collect(Collectors.toList());
     }
 
+    public UsuarioDTO obtenerPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+        return new UsuarioDTO(usuario);
+    }
+
     public UsuarioDTO crear(UsuarioRequestDTO usuarioRequestDTO) {
         Usuario usuario = new Usuario();
         usuario.setUsername(usuarioRequestDTO.getUsername());
@@ -44,7 +50,7 @@ public class UsuarioService {
             Usuario actualizado = usuarioRepository.save(usuario);
             return new UsuarioDTO(actualizado);
         }
-        throw new RuntimeException("Usuario no encontrado");
+        throw new RuntimeException("Usuario no encontrado con id: " + id);
     }
 
     public String actualizarRol(Long id, String nuevoRol) {
@@ -58,8 +64,7 @@ public class UsuarioService {
         return "Usuario no encontrado";
     }
 
-    public String eliminar(Long id) {
+    public void eliminar(Long id) {
         usuarioRepository.deleteById(id);
-        return "Usuario eliminado correctamente";
     }
 }

@@ -32,7 +32,12 @@ public class Pago {
     private String estado; // Ej: "pagado", "pendiente"
 
     @ManyToOne
-    @JoinColumn(name = "curso_id")
+    @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonBackReference
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "curso_id", nullable = false)
     @JsonBackReference
     private Curso curso;
 

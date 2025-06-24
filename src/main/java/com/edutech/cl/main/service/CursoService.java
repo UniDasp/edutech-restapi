@@ -1,5 +1,6 @@
 package com.edutech.cl.main.service;
 
+import com.edutech.cl.main.dto.request.CursoRequestDTO;
 import com.edutech.cl.main.model.Curso;
 import com.edutech.cl.main.repository.CursoRepository;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,18 @@ public class CursoService {
 
     public List<Curso> listar() {
         return cursoRepository.findAll();
+    }
+
+    public Curso obtenerPorId(Long id) {
+        return cursoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Curso no encontrado con id: " + id));
+    }
+
+    public Curso crear(CursoRequestDTO requestDTO) {
+        Curso curso = new Curso();
+        curso.setNombre(requestDTO.getNombre());
+        curso.setDescripcion(requestDTO.getDescripcion());
+        return cursoRepository.save(curso);
     }
 
     public Curso crear(Curso curso) {

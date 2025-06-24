@@ -7,9 +7,7 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    // Método para login
     Optional<Usuario> findByUsernameAndPassword(String username, String password);
 
-    // También puedes agregar más métodos si los necesitas
     Optional<Usuario> findByUsername(String username);
 }
